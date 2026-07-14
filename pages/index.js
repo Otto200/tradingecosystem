@@ -1,110 +1,67 @@
-import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import Link from 'next/link';
 
-// Connect to your existing free Supabase database dynamically via environment variables
-const supabaseUrl = process.env.https://klcxryswheaxwheacmsf.supabase.co/rest/v1/;
-const supabaseAnonKey = process.env.sb_publishable_4YlGPoC6rkOZNMLhWiBhnQ_SElW7gd5;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-export default function Dashboard() {
-  const [currentView, setCurrentView] = useState('command_center');
-  
-  // Position Sizing Calculator States
-  const [balance, setBalance] = useState(10000);
-  const [risk, setRisk] = useState(1);
-  const [stopLoss, setStopLoss] = useState(20);
-  const [strategy, setStrategy] = useState('Trend Following');
-
-  // Checklist States
-  const [rule1, setRule1] = useState(false);
-  const [rule2, setRule2] = useState(false);
-  const [rule3, setRule3] = useState(false);
-
-  // Live Math Operations (Zero server cost frontend processing)
-  const riskAmount = balance * (risk / 100);
-  const lotSize = stopLoss > 0 ? (riskAmount / stopLoss) : 0;
-  const allRulesMet = rule1 && rule2 && rule3;
-
-  // Save Trade Function
-  async function logTrade() {
-    const { data, error } = await supabase.from('trade_log').insert([
-      {
-        user_email: 'nextjs_trader@ecosystem.com',
-        strategy_name: strategy,
-        account_balance: balance,
-        risk_percent: risk,
-        stop_loss_pips: stop_loss,
-        lot_size: lotSize
-      }
-    ]);
-    if (error) alert('Error logging trade: ' + error.message);
-    else alert('🚀 Trade successfully logged to Supabase!');
-  }
-
+export default function LandingPage() {
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#111827', color: '#F3F4F6', fontFamily: 'sans-serif' }}>
+    <div style={{ backgroundColor: '#0B0F19', color: '#F3F4F6', fontFamily: 'sans-serif', minHeight: '100vh', overflowX: 'hidden' }}>
       
-      {/* 1. SIDEBAR NAVIGATION */}
-      <div style={{ width: '240px', backgroundColor: '#1F2937', padding: '20px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#10B981', marginBottom: '20px' }}>TRADING ECOSYSTEM</h2>
-        <button onClick={() => setCurrentView('command_center')} style={{ padding: '10px', textAlign: 'left', backgroundColor: currentView === 'command_center' ? '#374151' : 'transparent', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>🏠 Command Center</button>
-        <button onClick={() => setCurrentView('riskgate')} style={{ padding: '10px', textAlign: 'left', backgroundColor: currentView === 'riskgate' ? '#374151' : 'transparent', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>📈 Risk Gate</button>
-      </div>
+      {/* 1. GLASSMORPHIC NAVIGATION BAR */}
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 80px', borderBottom: '1px solid #1F2937', backdropFilter: 'blur(10px)', position: 'sticky', top: 0, backgroundColor: 'rgba(11, 15, 25, 0.8)' }}>
+        <div style={{ fontSize: '1.4rem', fontWeight: 'bold', color: '#10B981', letterSpacing: '1px' }}>🎯 QUANTUM ECOSYSTEM</div>
+        <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
+          <a href="#features" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.95rem' }}>Features</a>
+          <a href="#pricing" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.95rem' }}>Systems</a>
+          {/* Link pointing directly to your trading terminal dashboard */}
+          <Link href="/dashboard" style={{ backgroundColor: '#10B981', color: 'white', padding: '10px 22px', borderRadius: '6px', fontWeight: 'bold', textDecoration: 'none', fontSize: '0.9rem', boxShadow: '0px 4px 14px rgba(16, 185, 129, 0.3)' }}>Launch Platform</Link>
+        </div>
+      </nav>
 
-      {/* 2. MAIN DISPLAY CONTENT AREA */}
-      <div style={{ flex: 1, padding: '40px', overflowY: 'auto' }}>
-        
-        {/* VIEW: COMMAND CENTER */}
-        {currentView === 'command_center' && (
-          <div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '10px' }}>🎯 Trader Command Center</h1>
-            <p style={{ color: '#9CA3AF' }}>Welcome back. This premium interface never goes to sleep and responds instantly.</p>
+      {/* 2. HERO SECTION */}
+      <section style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 20px', maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ display: 'inline-block', backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10B981', padding: '6px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '25px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+          🚀 STOP BLOWING TRADING ACCOUNTS
+        </div>
+        <h1 style={{ fontSize: '3.8rem', fontWeight: '800', lineHeight: '1.15', letterSpacing: '-1px', marginBottom: '25px', background: 'linear-gradient(to right, #FFFFFF, #9CA3AF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          The Terminal That Forces Absolute Discipline.
+        </h1>
+        <p style={{ fontSize: '1.25rem', color: '#9CA3AF', lineHeight: '1.6', marginBottom: '40px', maxWidth: '650px' }}>
+          Whether you are a beginner or a struggling intermediate, our embedded risk models, automated checklist gatekeepers, and mechanical systems eliminate human error.
+        </p>
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <Link href="/dashboard" style={{ backgroundColor: '#10B981', color: 'white', padding: '16px 36px', borderRadius: '8px', fontSize: '1.05rem', fontWeight: 'bold', textDecoration: 'none', boxShadow: '0px 4px 20px rgba(16, 185, 129, 0.4)' }}>Get Started For Free</Link>
+          <a href="#features" style={{ border: '1px solid #374151', color: 'white', padding: '16px 36px', borderRadius: '8px', fontSize: '1.05rem', fontWeight: 'bold', textDecoration: 'none' }}>See How It Works</a>
+        </div>
+      </section>
+
+      {/* 3. VALUE PROPOSITION TRIPLE CARDS */}
+      <section id="features" style={{ padding: '80px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+        <h2 style={{ textAlignment: 'center', fontSize: '2rem', fontWeight: 'bold', marginBottom: '50px', textAlign: 'center' }}>Engineered for Behavioral Success</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+          
+          <div style={{ backgroundColor: '#111827', padding: '35px', borderRadius: '12px', border: '1px solid #1F2937' }}>
+            <div style={{ fontSize: '2rem', marginBottom: '15px' }}>🛡️</div>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginBottom: '12px' }}>The Mathematical Risk Gate</h3>
+            <p style={{ color: '#9CA3AF', lineHeight: '1.5', fontSize: '0.95rem' }}>Never guess your position sizing again. Input your stop loss, and our frontend engine automatically hardlocks your maximum loss variables.</p>
           </div>
-        )}
 
-        {/* VIEW: RISK GATE (THE GATEKEEPER CALCULATOR) */}
-        {currentView === 'riskgate' && (
-          <div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '20px' }}>📈 Risk Gate & System Gatekeeper</h1>
-            
-            <div style={{ display: 'flex', gap: '40px' }}>
-              {/* Left Column: Calculator Inputs */}
-              <div style={{ flex: 1, backgroundColor: '#1F2937', padding: '20px', borderRadius: '8px' }}>
-                <h3 style={{ marginBottom: '15px' }}>1. Position Math</h3>
-                <label style={{ display: 'block', marginBottom: '10px' }}>Account Balance ($)<br/>
-                  <input type="number" value={balance} onChange={(e) => setBalance(Number(e.target.value))} style={{ width: '100%', padding: '8px', marginTop: '5px', backgroundColor: '#374151', border: 'none', borderRadius: '4px', color: 'white' }} />
-                </label>
-                <label style={{ display: 'block', marginBottom: '10px' }}>Risk Percentage (%)<br/>
-                  <input type="number" value={risk} onChange={(e) => setRisk(Number(e.target.value))} style={{ width: '100%', padding: '8px', marginTop: '5px', backgroundColor: '#374151', border: 'none', borderRadius: '4px', color: 'white' }} />
-                </label>
-                <label style={{ display: 'block', marginBottom: '10px' }}>Stop Loss (Pips/Points)<br/>
-                  <input type="number" value={stopLoss} onChange={(e) => setStopLoss(Number(e.target.value))} style={{ width: '100%', padding: '8px', marginTop: '5px', backgroundColor: '#374151', border: 'none', borderRadius: '4px', color: 'white' }} />
-                </label>
-              </div>
-
-              {/* Right Column: Pre-Trade Checklist Gating */}
-              <div style={{ flex: 1, backgroundColor: '#1F2937', padding: '20px', borderRadius: '8px' }}>
-                <h3 style={{ marginBottom: '15px' }}>2. Pre-Trade Checklist</h3>
-                <label style={{ display: 'flex', gap: '10px', marginBottom: '10px', cursor: 'pointer' }}><input type="checkbox" checked={rule1} onChange={(e) => setRule1(e.target.checked)} /> Has higher timeframe trend direction aligned?</label>
-                <label style={{ display: 'flex', gap: '10px', marginBottom: '10px', cursor: 'pointer' }}><input type="checkbox" checked={rule2} onChange={(e) => setRule2(e.target.checked)} /> Is price sitting at a key structural level?</label>
-                <label style={{ display: 'flex', gap: '10px', marginBottom: '20px', cursor: 'pointer' }}><input type="checkbox" checked={rule3} onChange={(e) => setRule3(e.target.checked)} /> Are you emotionally detached from the risk outcome?</label>
-                
-                <hr style={{ borderColor: '#374151', marginBottom: '20px' }} />
-                <p style={{ margin: '5px 0' }}>💵 Cash Amount At Risk: <strong>${riskAmount.toFixed(2)}</strong></p>
-                <p style={{ margin: '5px 0', fontSize: '1.2rem', color: '#10B981' }}>📊 Calculated Lot Size: <strong>{lotSize.toFixed(2)} lots</strong></p>
-                
-                {allRulesMet ? (
-                  <button onClick={logTrade} style={{ width: '100%', padding: '12px', marginTop: '15px', backgroundColor: '#10B981', color: 'white', border: 'none', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>🚀 Log & Save Position</button>
-                ) : (
-                  <div style={{ width: '100%', padding: '12px', marginTop: '15px', backgroundColor: '#EF4444', color: 'white', borderRadius: '5px', textAlign: 'center', fontSize: '0.9rem' }}>🔒 Locked: Check all pre-trade rules to enable logging</div>
-                )}
-              </div>
-            </div>
-
+          <div style={{ backgroundColor: '#111827', padding: '35px', borderRadius: '12px', border: '1px solid #1F2937' }}>
+            <div style={{ fontSize: '2rem', marginBottom: '15px' }}>🔒</div>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginBottom: '12px' }}>Pre-Trade Checklist Lock</h3>
+            <p style={{ color: '#9CA3AF', lineHeight: '1.5', fontSize: '0.95rem' }}>Emotional trades kill progress. The platform physically blocks database access and trade logging until every structural rule aligns.</p>
           </div>
-        )}
 
-      </div>
+          <div style={{ backgroundColor: '#111827', padding: '35px', borderRadius: '12px', border: '1px solid #1F2937' }}>
+            <div style={{ fontSize: '2rem', marginBottom: '15px' }}>📊</div>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginBottom: '12px' }}>Leak Detection Journal</h3>
+            <p style={{ color: '#9CA3AF', lineHeight: '1.5', fontSize: '0.95rem' }}>Securely powered by Supabase. Your trade metrics are processed through continuous statistical logs to spot where you leak money.</p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4. FOOTER */}
+      <footer style={{ borderTop: '1px solid #1F2937', padding: '40px 80px', textAlign: 'center', color: '#4B5563', fontSize: '0.85rem', marginTop: '60px' }}>
+        © {new Date().getFullYear()} Quantum Trading Ecosystem. All rights reserved. Financial speculative trading involves substantial risk.
+      </footer>
     </div>
   );
 }
